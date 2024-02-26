@@ -1,5 +1,9 @@
 # AmadeusEX1.0
 The PUBLIC version of Amadeus! ( With many WIP things :/ )
+I plan on making a C# variant, as I find C# more interesting for projects like this.
 
 
--> Before you even decide to ask, YES. This is a project I've been doing for fun, to mess around with Python. I plan on making a C# version, since I genuinely prefer C#. But, I'd need to either find a good package to connect to the application, or, reinvent the wheel and make it myself (which surely would be hard, for me at least.) - And I'm afraid of exposing my token.
+-> Made to interact with users. Currently trying to add a play music command, but figuring out on how to do it.  Discord bot that, based ona user's input, will pick up the name of the song, search for it on YouTube and play it for the voice chat
+participants
+
+WIP Using: Python 3.10.6, Py-Cord, Discord.py, PyNaCl
