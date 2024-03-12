@@ -1,4 +1,4 @@
-def handlingMessages(message) -> str:
+def handlingMessages(message) -> str:  # Yes, I'm aware this isn't very... Well, "clean" or "good manners" but, this is just something that I'll be keeping FOR NOW.
     userMessage = message.lower()
 
     if "@1150388543559045212" in userMessage:
