@@ -5,6 +5,11 @@ import response
 from DiscordBotToken import TOKEN as botTK
 from discord.commands import Option
 
+"""
+For now, the VC-related commands are going to stay as prefix, not slashes.
+Reason? I hate using a slash command to make a bot join VCs. Takes too much time of our precious lives :)
+"""
+
 
 def runDiscordBot():  # runs my bot
     try:
@@ -29,7 +34,7 @@ def runDiscordBot():  # runs my bot
         async def on_ready():
             print(f"{botPrefix.user} is running... It's a miracle...- Ahem, of course it is! I have a big brain myself!")
             async for guild in botPrefix.fetch_guilds(limit=150):
-                print(guild.name)
+                print(f"Guild Name: {guild.name} / Guild ID: {guild.id}")
 
         @botPrefix.slash_command(
             name="whoami", description=f"You are...",
