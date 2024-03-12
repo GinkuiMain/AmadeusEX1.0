@@ -2,7 +2,7 @@ def handlingMessages(message) -> str:
     userMessage = message.lower()
 
     if "@1150388543559045212" in userMessage:
-        return "The Amadeus system is a very advanced AI programme that uses the data of a person's memories and personality as base. Now, feel free to use me for music stuff! El Psy Congroo."
+        return "The Amadeus system is a very advanced AI programme (No, I'm not) that uses the data of a person's memories and personality as base. Now, feel free to use me for music stuff! El Psy Congroo."
 
     if "🖕" in userMessage:
         return "Givin' me a middle finger? Well... I'll give you one back, then!! 🖕 🖕"

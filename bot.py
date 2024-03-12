@@ -3,6 +3,8 @@ import discord
 from discord.ext import commands
 import response
 from DiscordBotToken import TOKEN as botTK
+from discord.commands import Option
+
 
 def runDiscordBot():  # runs my bot
     try:
@@ -10,6 +12,7 @@ def runDiscordBot():  # runs my bot
         intents = discord.Intents.default()
         intents.message_content = True
         botPrefix = commands.Bot(command_prefix="$", intents=intents)  #prefix... Kinda broken rn. Makes the bot send private messages.
+
 
         async def sendMessage(message, userMessage, isPrivate):  # I'll need to leave this one, as she is important for other funcs
             try:
@@ -20,9 +23,13 @@ def runDiscordBot():  # runs my bot
             except Exception as erro:
                 print(erro)
 
+
+
         @botPrefix.event  # warns if the bot is on!
         async def on_ready():
             print(f"{botPrefix.user} is running... It's a miracle...- Ahem, of course it is! I have a big brain myself!")
+            async for guild in botPrefix.fetch_guilds(limit=150):
+                print(guild.name)
 
         @botPrefix.slash_command(
             name="whoami", description=f"You are...",
@@ -34,6 +41,11 @@ def runDiscordBot():  # runs my bot
             except Exception as erro:
                 await ctx.respond(f"I am sorry! But something went wrong... {erro}")
                 print(erro)
+
+        @botPrefix.slash_command(guild_ids=[707941445671321650, 1208210809340174426, 1203191887981322240], description=f"Calculator for noobies :)")
+        async def calculate(ctx, expression: Option(str, "write in your expression:")):
+            await ctx.respond(eval(expression))
+
 
         @botPrefix.command(pass_context=True)  # join voice chat!
         async def join(ctx):
@@ -67,7 +79,6 @@ def runDiscordBot():  # runs my bot
                     await ctx.send("I'm not in a voice channel, filthy human.")
             except Exception as erro:
                 print(erro)
-
 
 
         @botPrefix.event  # Just so I can monitor my server from far away (this one only will work if Amadeus has Admin privileges)
