@@ -4,6 +4,8 @@ from discord.ext import commands
 import response
 from DiscordBotToken import TOKEN as botTK
 from discord.commands import Option
+from discord import FFmpegPCMAudio
+import jokesfile
 
 """
 For now, the VC-related commands are going to stay as prefix, not slashes.
@@ -28,17 +30,19 @@ def runDiscordBot():  # runs my bot
             except Exception as erro:
                 print(erro)
 
-
-
         @botPrefix.event  # warns if the bot is on!
         async def on_ready():
             print(f"{botPrefix.user} is running... It's a miracle...- Ahem, of course it is! I have a big brain myself!")
             async for guild in botPrefix.fetch_guilds(limit=150):
                 print(f"Guild Name: {guild.name} / Guild ID: {guild.id}")
 
+        """
+        Now, the actual bot functions. I'll send this one to another file later on!
+        But, for now, they'll be stored in here.
+        """
+
         @botPrefix.slash_command(
-            name="whoami", description=f"You are...",
-            guild_ids=[707941445671321650, 1208210809340174426, 1203191887981322240]  # I'll turn this into a list, since it will change as she joins new servers
+            name="whoami", description=f"You are..."  # I'll turn this into a list, since it will change as she joins new servers
         )
         async def whoami(ctx):  # Just testing (for now)
             try:
@@ -47,44 +51,51 @@ def runDiscordBot():  # runs my bot
                 await ctx.respond(f"I am sorry! But something went wrong... {erro}")
                 print(erro)
 
-        @botPrefix.slash_command(guild_ids=[707941445671321650, 1208210809340174426, 1203191887981322240], description=f"Calculator for noobies :)")
+        @botPrefix.slash_command(description=f"Calculator for noobies :)")
         async def calculate(ctx, expression: Option(str, "write in your expression:")):
             await ctx.respond(eval(expression))
 
+        @botPrefix.slash_command(description=f"Tells a random joke.")
+        async def telljoke(ctx):
+            await ctx.respond(jokesfile.AmadeusJokes())
 
-        @botPrefix.command(pass_context=True)  # join voice chat!
-        async def join(ctx):
+        @botPrefix.slash_command(description=f"Plays Fatima, Amadeus or Hacking To The Gate!")
+        async def play(ctx, song: Option(str, "Write in one of the three:")):
             try:
-                if ctx.author.voice:  # If the author/user is in a vc
-                    channel = ctx.message.author.voice.channel
-                    await channel.connect()
-                    await ctx.send("I've joined the voice chat, Mad Scientist.")
-                else:
-                    await ctx.send("Join a voice chat, human.")
-            except Exception as erro:
-                await ctx.send(f"Something went wrong {erro}")
-
-        @botPrefix.command(pass_content=True)
-        async def play(ctx):
-            try:
-                if ctx.voice_client:  # if the user is in a voice chat
-                    await ctx.send(f"Hacking to the gate in order to get you some tunes!")
+                song = str(song).lower().strip()
+                if ctx.author.voice:
+                    channel = ctx.author.voice.channel
+                    voice = await channel.connect()
+                    src = FFmpegPCMAudio(f'musics/{song}.mp3')
+                    player = voice.play(src)
+                    await ctx.respond(f"Currently playing {song}")
                 else:  # if the user isn't in a voice chat
-                    await ctx.send(f"{ctx.author} Sorry, my dear friend... I can't play that song, since I'm not in a VC.")
+                    await ctx.respond(f"{ctx.author} Sorry, my dear friend... I can't play that song, since I'm not in a VC. (Or you aren't in a VC)")
             except Exception as erro:
                 print(erro)
 
-        @botPrefix.command(pass_context=True)  # Leave VC
+        @botPrefix.slash_command(description=f"Just joins the VC, no music or anything.")
+        async def join(ctx):
+            try:
+                if ctx.author.voice:  # If the author/user is in a vc
+                    channel = ctx.author.voice.channel
+                    await channel.connect()
+                    await ctx.respond("I've joined the voice chat, Mad Scientist.")
+                else:
+                    await ctx.respond("Join a voice chat, human.")
+            except Exception as erro:
+                await ctx.respond(f"Something went wrong {erro}")
+
+        @botPrefix.slash_command(description=f"Leaves the VC")
         async def leave(ctx):
             try:
                 if ctx.voice_client:  # if user is in channel
                     await ctx.guild.voice_client.disconnect()
-                    await ctx.send(f"I left the voice channel because {ctx.author} told me to do so. El Psy Congroo ")
+                    await ctx.respond(f"I left the voice channel because {ctx.author} told me to do so. El Psy Congroo ")
                 else:  # If user isn't in a channel.
-                    await ctx.send("I'm not in a voice channel, filthy human.")
+                    await ctx.respond("I'm not in a voice channel, filthy human.")
             except Exception as erro:
                 print(erro)
-
 
         @botPrefix.event  # Just so I can monitor my server from far away (this one only will work if Amadeus has Admin privileges)
         async def on_message(message):  # Worth mentioning, I'll remove this one... Eventually.
