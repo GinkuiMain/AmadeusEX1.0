@@ -53,7 +53,11 @@ def runDiscordBot():  # runs my bot
 
         @botPrefix.slash_command(description=f"Calculator for noobies :)")
         async def calculate(ctx, expression: Option(str, "write in your expression:")):
-            await ctx.respond(eval(expression))
+            try:
+                await ctx.respond(eval(expression))
+            except ZeroDivisionError:
+                await ctx.respond("You can't divide by 0")
+                pass
 
         @botPrefix.slash_command(description=f"Tells a random joke.")
         async def telljoke(ctx):
