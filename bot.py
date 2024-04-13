@@ -6,6 +6,7 @@ from DiscordBotToken import TOKEN as botTK
 from discord.commands import Option
 from discord import FFmpegPCMAudio
 import jokesfile
+import random
 
 """
 For now, the VC-related commands are going to stay as prefix, not slashes.
@@ -62,6 +63,16 @@ def runDiscordBot():  # runs my bot
         @botPrefix.slash_command(description=f"Tells a random joke.")
         async def telljoke(ctx):
             await ctx.respond(jokesfile.AmadeusJokes())
+
+        @botPrefix.slash_command(description=f"Random number from 1-6, twice.")
+        async def diceroll(ctx):
+            try:
+                x = random.randint(1,6)
+                y = random.randint(1,6)
+                await ctx.respond(f"• First roll: {x} \n\n• Second roll: {y}\n\n> Total: {x+y}")
+            except Exception as ex:
+                await ctx.respond("Something went wrong. Sorry!")
+                print(f"{ex}")
 
         @botPrefix.slash_command(description=f"Plays Fatima, Amadeus or Hacking To The Gate!")
         async def play(ctx, song: Option(str, "Write in one of the three:")):
