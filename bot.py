@@ -63,6 +63,7 @@ def runDiscordBot():  # runs my bot
         @botPrefix.slash_command(description=f"Tells a random joke.")
         async def telljoke(ctx):
             await ctx.respond(jokesfile.AmadeusJokes())
+            await ctx.respond("Hope that's funny enough.")
 
         @botPrefix.slash_command(description=f"Random number from 1-6, twice.")
         async def diceroll(ctx):
