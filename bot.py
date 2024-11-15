@@ -7,7 +7,6 @@ from discord.commands import Option
 from discord import FFmpegPCMAudio
 import jokesfile
 import random
-import gelbooruAPI
 
 """
 For now, the VC-related commands are going to stay as prefix, not slashes.

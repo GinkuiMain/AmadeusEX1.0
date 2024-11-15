@@ -1,10 +1,5 @@
-import time
-import discord
 from discord.ext import commands
-import response
-from DiscordBotToken import TOKEN as botTK
 from discord.commands import Option
-from discord.commands import slash_command
 import requests
 
 class gelbooruCog(commands.Cog):
