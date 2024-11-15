@@ -13,7 +13,7 @@ def handlingMessages(message) -> str:  # Yes, I'm aware this isn't very... Well,
 
     if "version" in userMessage:
         return "The AmadeusEX 1.0, running on the main computer! Ask Zuzu for more information about me, if needed!"
-    
+
     if "watch user" in userMessage:
         return "Watching them for 1 hour. Sending logs to DM!!"
 
