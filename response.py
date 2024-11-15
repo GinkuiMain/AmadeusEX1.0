@@ -7,9 +7,24 @@ def handlingMessages(message) -> str:  # Yes, I'm aware this isn't very... Well,
     if "🖕" in userMessage:
         return "Givin' me a middle finger? Well... I'll give you one back, then!! 🖕 🖕"
 
-    if "amadeus?" in userMessage:
+    if "Amadeus?" in userMessage:
         return ("Yes! That's me! Amadeus, your local AI assistant! Worth mentioning, I'm not really an AI... Yet... "
                 "Although, I hope I'll turn into one, in the future!")
+
+    if "version" in userMessage:
+        return "The AmadeusEX 1.0, running on the main computer! Ask Zuzu for more information about me, if needed!"
+    
+    if "watch user" in userMessage:
+        return "Watching them for 1 hour. Sending logs to DM!!"
+
+    if "@992872095769956482" in userMessage:
+        return "Primmmyyy :appy: Zuzu is asleep, but left me online."
+
+    if "@186537028513431555" in userMessage:
+        return "Zuzu is tired/eepy, please be nice to them."
+
+    if "Explode his balls" in userMessage:
+        return "Explode!!!!"
 
     if "@286161980006465536" in userMessage:
         return ""

@@ -7,12 +7,12 @@ from discord.commands import Option
 from discord import FFmpegPCMAudio
 import jokesfile
 import random
+import gelbooruAPI
 
 """
 For now, the VC-related commands are going to stay as prefix, not slashes.
 Reason? I hate using a slash command to make a bot join VCs. Takes too much time of our precious lives :)
 """
-
 
 def runDiscordBot():  # runs my bot
     try:
@@ -21,6 +21,8 @@ def runDiscordBot():  # runs my bot
         intents.message_content = True
         botPrefix = commands.Bot(command_prefix="$", intents=intents)  #prefix... Kinda broken rn. Makes the bot send private messages.
 
+        botPrefix.load_extension("gelbooruAPI")
+        print("Gelbooru cog loaded.")
 
         async def sendMessage(message, userMessage, isPrivate):  # I'll need to leave this one, as she is important for other funcs
             try:
@@ -63,7 +65,7 @@ def runDiscordBot():  # runs my bot
         @botPrefix.slash_command(description=f"Tells a random joke.")
         async def telljoke(ctx):
             await ctx.respond(jokesfile.AmadeusJokes())
-            await ctx.respond("Hope that's funny enough.")
+
 
         @botPrefix.slash_command(description=f"Random number from 1-6, twice.")
         async def diceroll(ctx):
