@@ -17,11 +17,11 @@ def handlingMessages(message) -> str:  # Yes, I'm aware this isn't very... Well,
     if "watch user" in userMessage:
         return "Watching them for 1 hour. Sending logs to DM!!"
 
-    if "@992872095769956482" in userMessage:
-        return "Primmmyyy :appy: Zuzu is asleep, but left me online."
-
     if "@186537028513431555" in userMessage:
         return "Zuzu is tired/eepy, please be nice to them."
+
+    if "morgan" in userMessage:
+        return "MORGAN FREEMAN! IN THE FLEEEEESH."
 
     if "Explode his balls" in userMessage:
         return "Explode!!!!"
