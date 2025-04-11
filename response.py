@@ -2,7 +2,7 @@ def handlingMessages(message) -> str:  # Yes, I'm aware this isn't very... Well,
     userMessage = message.lower()
 
     if "@1150388543559045212" in userMessage:
-        return "The Amadeus system is a very advanced AI programme (No, I'm not) that uses the data of a person's memories and personality as base. Now, feel free to use me for music stuff! El Psy Congroo."
+        return "The Amadeus system is a very advanced AI programme that uses the data of a person's memories and personality as base. Now, feel free to use me for music stuff! El Psy Congroo."
 
     if "🖕" in userMessage:
         return "Givin' me a middle finger? Well... I'll give you one back, then!! 🖕 🖕"
@@ -17,11 +17,14 @@ def handlingMessages(message) -> str:  # Yes, I'm aware this isn't very... Well,
     if "watch user" in userMessage:
         return "Watching them for 1 hour. Sending logs to DM!!"
 
+    if "server" in userMessage:
+        return "Watching the server - Default time: 6 hours || Go sleepy zuzu!! ♥ "
+
     if "@186537028513431555" in userMessage:
-        return "Zuzu is tired/eepy, please be nice to them."
+        return "Pinging the big (literally big, that idiot is fat.) man? Epic."
 
     if "morgan" in userMessage:
-        return "MORGAN FREEMAN! IN THE FLEEEEESH."
+        return "GORDON FREEMAN! IN THE FLEEEEESH."
 
     if "Explode his balls" in userMessage:
         return "Explode!!!!"

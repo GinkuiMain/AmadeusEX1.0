@@ -2,23 +2,25 @@ from discord.ext import commands
 from discord.commands import Option
 import requests
 
-class gelbooruCog(commands.Cog):
-    def __init__(self,bot):
+
+class GelbooruCog(commands.Cog):
+    def __init__(self, bot):
         self.bot = bot
 
-        @bot.slash_command(name="gelbooru-search", description="Searches on Gelbooru for images. (I.E. : 'cat_girl' or 'dog_boy' -- Add a ' _ ' instead of space.) ")
-        async def gelbooruSearch(ctx, tags: Option(str, "Write/Type the tags you want to search for (white spaces = '_')):",
+        @bot.slash_command(name="gelbooru-search",
+                           description="Searches on Gelbooru for images. (I.E. : 'cat_girl' or 'dog_boy' -- Add a ' _ ' instead of space.) ")
+        async def gelbooruSearch(ctx, tags: Option(str, "Type the tags you want to search for (white spaces = '_')):",
                                                    required=True)):
             await ctx.defer()
 
-            url = "https://gelbooru.com/index.php" # https://gelbooru.com/index.php?page=wiki&s=view&id=18780
+            url = "https://gelbooru.com/index.php"  # https://gelbooru.com/index.php?page=wiki&s=view&id=18780
             params = {
                 "page": "dapi",
                 "s": "post",
                 "q": "index",
                 "tags": tags,
                 "json": 1,
-                "limit": 10  # Change the number for whatever number of 'random' posts you want when usnig the command
+                "limit": 10  # Change the number for whatever number of 'random' posts you want when using the command
             }
 
             try:
@@ -30,24 +32,26 @@ class gelbooruCog(commands.Cog):
 
                 # Ensure we got a 200 OK response before proceeding -- This was made with Reddit's help
                 if response.status_code != 200:
-                    await ctx.respond("Failed to retrieve data from Gelbooru. Please try again later. I think it might've been SERN...")
+                    await ctx.respond(
+                        "Failed to retrieve data from Gelbooru. Please try again later. I think it might've been SERN...")
                     return
 
                 data = response.json()
-                posts = data.get("post", []) # Access the 'post' array inside the JSON response
+                posts = data.get("post", [])  # Access the 'post' array inside the JSON response
                 if posts:
-                    # Fetch the first post
-                    post = posts[0]
+                    post = posts[0]  # Fetch the first post
                     post_url = post.get("file_url", "")
                     if post_url:
                         await ctx.respond(f"Here, mad scientist, is what I've found!! \n `{tags}`:\n {post_url}")
                     else:
-                        await ctx.respond("Nothing was found... Must've been SERN's fault. (No result error)")
+                        await ctx.respond("Nothing was found... Must've been SERN's fault. (No data error)")
                 else:
-                    await ctx.respond("Nothing was found... Must've been SERN. (No data error)")
+                    await ctx.respond("Nothing was found... Must've been SERN. (No result error)")
 
             except Exception as e:
                 await ctx.respond("Something went fairly wrong-- Not my fault! I blame Okabe.")
                 print(f"Error occurred: {e}")
+
+
 def setup(bot):
-    bot.add_cog(gelbooruCog(bot))
+    bot.add_cog(GelbooruCog(bot))

@@ -8,12 +8,7 @@ from discord import FFmpegPCMAudio
 import jokesfile
 import random
 
-"""
-For now, the VC-related commands are going to stay as prefix, not slashes.
-Reason? I hate using a slash command to make a bot join VCs. Takes too much time of our precious lives :)
-"""
-
-def runDiscordBot():  # runs my bot
+def runDiscordBot():
     try:
         TOKEN = botTK  # Token stored in a local file for... Well, safety! (duh)
         intents = discord.Intents.default()
@@ -21,7 +16,10 @@ def runDiscordBot():  # runs my bot
         botPrefix = commands.Bot(command_prefix="$", intents=intents)  #prefix... Kinda broken rn. Makes the bot send private messages.
 
         botPrefix.load_extension("gelbooruAPI")
+        botPrefix.load_extension("ollamaSection")
+
         print("Gelbooru cog loaded.")
+        print("Ollama cog loaded.")
 
         async def sendMessage(message, userMessage, isPrivate):  # I'll need to leave this one, as she is important for other funcs
             try:
@@ -34,9 +32,11 @@ def runDiscordBot():  # runs my bot
 
         @botPrefix.event  # warns if the bot is on!
         async def on_ready():
+            await botPrefix.sync_commands()
             print(f"{botPrefix.user} is running... It's a miracle...- Ahem, of course it is! I have a big brain myself!")
             async for guild in botPrefix.fetch_guilds(limit=150):
                 print(f"Guild Name: {guild.name} / Guild ID: {guild.id}")
+            await botPrefix.sync_commands()
 
         """
         Now, the actual bot functions. I'll send this one to another file later on!
