@@ -17,9 +17,11 @@ def runDiscordBot():
 
         botPrefix.load_extension("gelbooruAPI")
         botPrefix.load_extension("ollamaSection")
+        botPrefix.load_extension("musicSection")
 
-        print("Gelbooru cog loaded.")
-        print("Ollama cog loaded.")
+        print("-> Gelbooru cog loaded.")
+        print("-> Ollama cog loaded.")
+        print("-> Music cog loaded.")
 
         async def sendMessage(message, userMessage, isPrivate):  # I'll need to leave this one, as she is important for other funcs
             try:
@@ -75,44 +77,6 @@ def runDiscordBot():
             except Exception as ex:
                 await ctx.respond("Something went wrong. Sorry!")
                 print(f"{ex}")
-
-        @botPrefix.slash_command(description=f"Plays Fatima, Amadeus or Hacking To The Gate!")
-        async def play(ctx, song: Option(str, "Write in one of the three:")):
-            try:
-                song = str(song).lower().strip()
-                if ctx.author.voice:
-                    channel = ctx.author.voice.channel
-                    voice = await channel.connect()
-                    src = FFmpegPCMAudio(f'musics/{song}.mp3')
-                    player = voice.play(src)
-                    await ctx.respond(f"Currently playing {song}")
-                else:  # if the user isn't in a voice chat
-                    await ctx.respond(f"{ctx.author} Sorry, my dear friend... I can't play that song, since I'm not in a VC. (Or you aren't in a VC)")
-            except Exception as erro:
-                print(erro)
-
-        @botPrefix.slash_command(description=f"Just joins the VC, no music or anything.")
-        async def join(ctx):
-            try:
-                if ctx.author.voice:  # If the author/user is in a vc
-                    channel = ctx.author.voice.channel
-                    await channel.connect()
-                    await ctx.respond("I've joined the voice chat, Mad Scientist.")
-                else:
-                    await ctx.respond("Join a voice chat, human.")
-            except Exception as erro:
-                await ctx.respond(f"Something went wrong {erro}")
-
-        @botPrefix.slash_command(description=f"Leaves the VC")
-        async def leave(ctx):
-            try:
-                if ctx.voice_client:  # if user is in channel
-                    await ctx.guild.voice_client.disconnect()
-                    await ctx.respond(f"I left the voice channel because {ctx.author} told me to do so. El Psy Congroo ")
-                else:  # If user isn't in a channel.
-                    await ctx.respond("I'm not in a voice channel, filthy human.")
-            except Exception as erro:
-                print(erro)
 
         @botPrefix.event  # Just so I can monitor my server from far away (this one only will work if Amadeus has Admin privileges)
         async def on_message(message):  # Worth mentioning, I'll remove this one... Eventually.
