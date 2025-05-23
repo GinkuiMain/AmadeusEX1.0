@@ -78,7 +78,7 @@ def runDiscordBot():
                 await ctx.respond("Something went wrong. Sorry!")
                 print(f"{ex}")
 
-        @botPrefix.event  # Just so I can monitor my server from far away (this one only will work if Amadeus has Admin privileges)
+        @botPrefix.event  # Just so she can read messages on console. Also, because I have some silly easter eggs for users in 'responses.py'
         async def on_message(message):  # Worth mentioning, I'll remove this one... Eventually.
             userName = str(message.author)
             userMessage = str(message.content)
