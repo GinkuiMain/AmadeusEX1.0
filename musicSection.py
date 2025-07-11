@@ -7,9 +7,11 @@ import yt_dlp
 
 SONG_QUEUES = {}
 
+
 def _extract(query, ydl_opts):
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         return ydl.extract_info(query, download=False)
+
 
 async def search_ytdlp_async(query, ydl_opts):
     loop = asyncio.get_running_loop()
@@ -29,7 +31,7 @@ class YouTubeCog(commands.Cog):
         await ctx.defer()
 
         if not ctx.author.voice:
-            await ctx.respond("You're not in a voice channel, Okabe.")
+            await ctx.respond("You're not in a voice channel, Mad Scientist.")
             return
 
         voice_channel = ctx.author.voice.channel
@@ -40,11 +42,13 @@ class YouTubeCog(commands.Cog):
         elif voice_channel != voice_client.channel:
             await voice_client.move_to(voice_channel)
 
-        ydl_options = {
+        ydl_options = { # I'll try to place this and other sections into separate files, so it looks less... Complicated for whoever uses it.
             "format": "bestaudio[abr<=96]/bestaudio",
             "noplaylist": True,
             "youtube_include_dash_manifest": False,
             "youtube_include_hls_manifest": False,
+            "nocheckcertificate": True,  # Optional, for SSL issues
+            "force_generic_extractor": True,  # As a fallback
         }
 
         query = "ytsearch1:" + song_query
@@ -93,6 +97,65 @@ class YouTubeCog(commands.Cog):
             await voice_client.disconnect()
             SONG_QUEUES[guild_id] = deque()
 
+    @commands.slash_command(description=f"Skips the current song")
+    async def skip(self, ctx: discord.ApplicationContext):
+        try:
+            voice_client = ctx.guild.voice_client
+            if voice_client and (voice_client.is_playing() or voice_client.is_paused()):
+                voice_client.stop()
+                await ctx.respond("Skipped the current song. Happy now, Okabe?")
+            else:
+                await ctx.respond("There's nothing playing... You can't skip silence, you know.")
+
+        except Exception:
+            ctx.respond("I couldn't connect to the voice | Or something else went wrong.")
+            ctx.respond(f"{Exception}")
+
+    @commands.slash_command(description=f"Pauses the current song")
+    async def pause(self, ctx: discord.ApplicationContext):
+        try:
+            voice_client = ctx.guild.voice_client
+            if voice_client is None:
+                await ctx.respond("I'm not in a voice chat. Not my fault, blame Darou! That idiot whale.")
+                return
+            if not voice_client.is_playing():
+                await ctx.respond("Nothing to play! Nothing to play!!! Boring...")
+
+            voice_client.pause()
+            await ctx.respond("Paused.")
+
+        except Exception:
+            await ctx.respond("")
+
+    @commands.slash_command(description=f"Resumes the current song")
+    async def resume(self, ctx: discord.ApplicationContext):
+        voice_client = ctx.guild.voice_client
+
+        if voice_client is None:
+            await ctx.respond("I'm not in a voice channel!!!! Hmph...")
+        if not voice_client.is_paused():
+            await ctx.respond("The song's not even paused. Are you ok??")
+
+        ctx.respond("Resumed!")
+        voice_client.resume()
+
+    @commands.slash_command(description=f"Stops the current song")
+    async def stop(self, ctx: discord.ApplicationContext):
+        voice_client = ctx.guild.voice_client
+
+        if not voice_client or not voice_client.is_connected():
+            await ctx.respond("I'm not connected to any voice channel. Not my fault.")
+            return
+
+        guild_id_str = str(ctx.guild.id)
+        SONG_QUEUES.get(guild_id_str, deque()).clear()
+
+        if voice_client.is_playing() or voice_client.is_paused():
+            voice_client.stop()
+
+        await voice_client.disconnect()
+        await ctx.respond("Playback halted, queue cleared, and I’m gone. Just like your common sense.")
+
     @commands.slash_command(description=f"Leaves the VC")
     async def leave(self, ctx: discord.ApplicationContext):
         try:
@@ -107,6 +170,7 @@ class YouTubeCog(commands.Cog):
 
 def setup(bot):
     bot.add_cog(YouTubeCog(bot))
+
 """
 The section below is just a WIP (for me to remember later)
 
