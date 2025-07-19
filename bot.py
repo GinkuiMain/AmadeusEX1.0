@@ -18,10 +18,12 @@ def runDiscordBot():
         botPrefix.load_extension("gelbooruAPI")
         botPrefix.load_extension("ollamaSection")
         botPrefix.load_extension("musicSection")
+        botPrefix.load_extension("animeSearchCog")
 
         print("-> Gelbooru cog loaded.")
         print("-> Ollama cog loaded.")
         print("-> Music cog loaded.")
+        print("-> Anime cog loaded")
 
         async def sendMessage(message, userMessage, isPrivate):  # I'll need to leave this one, as she is important for other funcs
             try:

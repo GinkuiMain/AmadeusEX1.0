@@ -170,31 +170,3 @@ class YouTubeCog(commands.Cog):
 
 def setup(bot):
     bot.add_cog(YouTubeCog(bot))
-
-"""
-The section below is just a WIP (for me to remember later)
-
-        # @botPrefix.slash_command(description=f"Just joins the VC, no music or anything.")
-        # async def join(ctx):
-        #     try:
-        #         if ctx.author.voice:  # If the author/user is in a vc
-        #             channel = ctx.author.voice.channel
-        #             await channel.connect()
-        #             await ctx.respond("I've joined the voice chat, Mad Scientist.")
-        #         else:
-        #             await ctx.respond("Join a voice chat, human.")
-        #     except Exception as erro:
-        #         await ctx.respond(f"Something went wrong {erro}")
-
-        # @botPrefix.slash_command(description=f"Leaves the VC")
-        # async def leave(ctx):
-        #     try:
-        #         if ctx.voice_client:  # if user is in channel
-        #             await ctx.guild.voice_client.disconnect()
-        #             await ctx.respond(f"I left the voice channel because {ctx.author} told me to do so. El Psy Congroo ")
-        #         else:  # If user isn't in a channel.
-        #             await ctx.respond("I'm not in a voice channel, filthy human.")
-        #     except Exception as erro:
-        #         print(erro)
-
-"""
