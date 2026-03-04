@@ -5,8 +5,10 @@ import response
 from DiscordBotToken import TOKEN as botTK
 from discord.commands import Option
 from discord import FFmpegPCMAudio
+import memorySection
 import jokesfile
 import random
+
 
 def runDiscordBot():
     try:
@@ -16,14 +18,15 @@ def runDiscordBot():
         botPrefix = commands.Bot(command_prefix="$", intents=intents)  #prefix... Kinda broken rn. Makes the bot send private messages.
 
         botPrefix.load_extension("gelbooruAPI")
-        botPrefix.load_extension("ollamaSection")
-        botPrefix.load_extension("musicSection")
-        botPrefix.load_extension("animeSearchCog")
-
         print("-> Gelbooru cog loaded.")
+        botPrefix.load_extension("ollamaSection")
         print("-> Ollama cog loaded.")
+        botPrefix.load_extension("musicSection")
         print("-> Music cog loaded.")
+        botPrefix.load_extension("animeSearchCog")
         print("-> Anime cog loaded")
+        botPrefix.load_extension("memorySection")
+        print("-> Memory cog loaded.")
 
         async def sendMessage(message, userMessage, isPrivate):  # I'll need to leave this one, as she is important for other funcs
             try:
